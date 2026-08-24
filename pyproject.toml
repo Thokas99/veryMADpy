@@ -10,7 +10,14 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
 authors = [{ name = "Thomas Sirchi", email = "thomasirchi@gmail.com" }]
+keywords = ["bioinformatics", "scanpy", "anndata", "quality-control", "robust-statistics"]
 dependencies = ["numpy", "pandas", "anndata"]
+
+[project.urls]
+Homepage = "https://github.com/Thokas99/veryMADpy"
+Repository = "https://github.com/Thokas99/veryMADpy"
+Issues = "https://github.com/Thokas99/veryMADpy/issues"
+Changelog = "https://github.com/Thokas99/veryMADpy/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 dev = ["pytest", "pytest-cov", "ruff"]
