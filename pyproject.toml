@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "veryMADpy"
+version = "0.0.1"
+description = "Explicit MAD quality-control annotation for Python and scverse"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "Thomas Sirchi", email = "thomasirchi@gmail.com" }]
+dependencies = ["numpy", "pandas", "anndata"]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "ruff"]
+test-scanpy = ["scanpy"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
