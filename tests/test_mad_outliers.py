@@ -3,6 +3,7 @@ import pandas as pd
 import pytest
 
 from verymad.pp import flag_mad_outliers
+from verymad.pp._mad_outliers import _calculate_metric
 
 
 def test_tails_and_thresholds_are_explicit():
@@ -60,3 +61,22 @@ def test_invalid_metric_and_transform_inputs():
         )
     with pytest.raises(ValueError, match="non-finite"):
         flag_mad_outliers(pd.DataFrame({"x": [1, 2, 3, 4, np.inf]}), metrics={"x": "lower"})
+
+
+def test_metric_calculation_returns_transformed_and_raw_thresholds():
+    result = _calculate_metric(
+        np.array([1.0, 2.0, 3.0, 4.0, 100.0]),
+        metric="counts",
+        direction="upper",
+        n_mads=1.0,
+        transform="log1p",
+        min_n=5,
+        zero_mad="na",
+        index=pd.Index(["a", "b", "c", "d", "e"]),
+    )
+
+    assert result.status == "ok"
+    assert result.flag.dtype == "boolean"
+    assert bool(result.flag.loc["e"])
+    assert result.threshold["transform"] == "log1p"
+    assert result.threshold["upper_raw"] > result.threshold["upper"]

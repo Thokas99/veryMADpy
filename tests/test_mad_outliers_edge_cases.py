@@ -3,6 +3,7 @@ import pandas as pd
 import pytest
 
 from verymad.pp import flag_mad_outliers
+from verymad.pp._mad_outliers import _combine_flags
 
 
 def test_empty_all_missing_and_insufficient_statuses():
@@ -49,3 +50,11 @@ def test_index_is_preserved():
     data = pd.DataFrame({"x": [1, 2, 3, 4, 5]}, index=["a", "b", "c", "d", "e"])
     result = flag_mad_outliers(data, metrics={"x": "lower"})
     assert result.index.tolist() == data.index.tolist()
+
+
+def test_combine_flags_handles_numpy_boolean_scalars():
+    flags = [pd.Series([np.bool_(True), np.bool_(False)], dtype=object)]
+
+    combined = _combine_flags(flags, flags[0].index)
+
+    assert combined.tolist() == [True, False]

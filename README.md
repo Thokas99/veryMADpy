@@ -20,6 +20,7 @@ veryMADpy calculates transparent statistical thresholds and flags observations. 
 | Capability | Function | Input |
 | --- | --- | --- |
 | Observation-level MAD QC | `vm.pp.flag_mad_outliers()` | `AnnData`, `DataFrame` |
+| MAD QC summary | `vm.pp.summarize_mad()` | Annotated `AnnData`, `DataFrame` |
 | Robust MAD scaling | `vm.pp.mad_scale()` | NumPy, Series, DataFrame |
 
 For AnnData, QC metrics are read from `adata.obs`. Flags are written to `adata.obs` and threshold metadata is stored in `adata.uns["verymad"]`.
@@ -88,6 +89,8 @@ adata.obs[
 ]
 
 adata.uns["verymad"]
+
+vm.pp.summarize_mad(adata)
 ```
 
 `adata.obs` contains per-observation nullable flags. Each flag can be `True`, `False`, or missing when classification is undefined. `adata.uns["verymad"]` contains the thresholds and calculation parameters. veryMADpy complements `sc.pp.calculate_qc_metrics()`; it does not replace it.
@@ -107,6 +110,8 @@ annotated = vm.pp.flag_mad_outliers(
         "library_size": "log1p",
     },
 )
+
+vm.pp.summarize_mad(annotated)
 ```
 
 ## Robust scaling
